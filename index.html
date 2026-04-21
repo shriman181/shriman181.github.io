@@ -1,561 +1,1568 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shriman Maheshwari</title>
-  <meta name="description" content="Building intelligence for the businesses that built India. CS @ BITS Pilani → CentraleSupélec Paris." />
-  <meta property="og:title" content="Shriman Maheshwari" />
-  <meta property="og:description" content="Building intelligence for the businesses that built India." />
-  <meta property="og:url" content="https://shriman.me" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shriman Labs — Intelligence for India's Distributors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e0e0e;
+    --paper: #f7f4ef;
+    --cream: #ede9e1;
+    --rust: #c4400f;
+    --rust-light: #e85a20;
+    --gold: #d4960a;
+    --mist: #8a8070;
+    --border: rgba(14,14,14,0.1);
+    --card-bg: rgba(255,255,255,0.7);
+  }
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; }
 
-    :root {
-      --bg:       #F9F7F4;
-      --ink:      #0F0E0C;
-      --ink-mid:  #4A4744;
-      --ink-soft: #9A9490;
-      --accent:   #B85C2C;
-      --rule:     #E2DDD8;
-      --serif:    'Instrument Serif', Georgia, serif;
-      --mono:     'Geist Mono', 'Courier New', monospace;
-      --col:      680px;
-      --pad:      clamp(24px, 7vw, 96px);
-    }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
 
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--mono);
-      font-size: 13.5px;
-      font-weight: 300;
-      line-height: 1.75;
-      letter-spacing: 0.01em;
-      -webkit-font-smoothing: antialiased;
-    }
+  /* ─── NOISE TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
 
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.025;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)'/%3E%3C/svg%3E");
-      background-size: 200px;
-    }
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 20px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(247,244,239,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: padding 0.3s ease;
+  }
+  nav.scrolled { padding: 14px 60px; }
 
-    /* ── LAYOUT ── */
-    .page {
-      max-width: calc(var(--col) + var(--pad) * 2);
-      margin: 0 auto;
-      padding: 0 var(--pad);
-    }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-logo-mark {
+    width: 32px; height: 32px;
+    background: var(--ink);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--paper);
+    font-size: 14px;
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+  }
 
-    /* ── NAV ── */
-    .nav-wrap {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      background: rgba(249, 247, 244, 0.92);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.4s;
-    }
-    .nav-wrap.scrolled { border-bottom-color: var(--rule); }
+  .nav-links {
+    display: flex; align-items: center; gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--mist);
+    text-decoration: none;
+    transition: color 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .nav-links a:hover { color: var(--ink); }
 
-    nav {
-      max-width: calc(var(--col) + var(--pad) * 2);
-      margin: 0 auto;
-      padding: 20px var(--pad);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+  .nav-cta {
+    background: var(--ink);
+    color: var(--paper) !important;
+    padding: 9px 22px;
+    border-radius: 6px;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    transition: background 0.2s, transform 0.15s !important;
+  }
+  .nav-cta:hover { background: var(--rust) !important; color: white !important; transform: translateY(-1px); }
 
-    .nav-name {
-      font-family: var(--serif);
-      font-size: 15px;
-      color: var(--ink);
-      text-decoration: none;
-      letter-spacing: 0.01em;
-    }
-    .nav-links {
-      display: flex;
-      gap: 28px;
-      list-style: none;
-    }
-    .nav-links a {
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--ink-soft);
-      text-decoration: none;
-      transition: color 0.15s;
-    }
-    .nav-links a:hover { color: var(--ink); }
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    padding: 140px 60px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
 
-    /* ── HERO ── */
-    #top {
-      padding-top: clamp(120px, 22vh, 176px);
-      padding-bottom: clamp(72px, 14vh, 112px);
-    }
+  .hero-bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    opacity: 0.35;
+  }
+  .hero-bg-circle-1 {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, #f0d4b0, transparent);
+    top: -100px; right: -150px;
+    animation: float1 8s ease-in-out infinite;
+  }
+  .hero-bg-circle-2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, #c4400f33, transparent);
+    bottom: 0px; left: -100px;
+    animation: float2 10s ease-in-out infinite;
+  }
 
-    .hero-eyebrow {
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 28px;
-      opacity: 0;
-      animation: up 0.55s ease forwards 0.05s;
-    }
+  @keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-20px,30px)} }
+  @keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(20px,-20px)} }
 
-    h1 {
-      font-family: var(--serif);
-      font-size: clamp(2.5rem, 5.8vw, 4rem);
-      font-weight: 400;
-      line-height: 1.08;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-      margin-bottom: 28px;
-      opacity: 0;
-      animation: up 0.65s ease forwards 0.14s;
-    }
-    h1 em { font-style: italic; color: var(--ink-mid); }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rust);
+    border: 1px solid var(--rust);
+    padding: 5px 12px;
+    border-radius: 4px;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.2s;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--rust);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-    .hero-body {
-      font-size: 13.5px;
-      color: var(--ink-mid);
-      line-height: 1.85;
-      max-width: 460px;
-      opacity: 0;
-      animation: up 0.65s ease forwards 0.26s;
-    }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(44px, 5vw, 68px);
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    color: var(--ink);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--rust);
+  }
 
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 32px;
-      opacity: 0;
-      animation: up 0.55s ease forwards 0.38s;
-    }
-    .tag {
-      font-size: 10.5px;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      color: var(--ink-soft);
-      border: 1px solid var(--rule);
-      padding: 5px 11px;
-      border-radius: 2px;
-    }
+  .hero-sub {
+    font-size: 17px;
+    color: var(--mist);
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
 
-    /* ── SECTIONS ── */
-    section {
-      padding: clamp(52px, 9vh, 88px) 0;
-      border-top: 1px solid var(--rule);
-    }
+  .hero-actions {
+    display: flex; gap: 16px; align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
 
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      gap: 14px;
-      margin-bottom: 44px;
-    }
-    .section-label {
-      font-size: 10.5px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-    .section-index {
-      font-size: 10.5px;
-      letter-spacing: 0.08em;
-      color: var(--rule);
-    }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: var(--rust); transform: translateY(-2px); }
+  .btn-primary svg { transition: transform 0.2s; }
+  .btn-primary:hover svg { transform: translateX(4px); }
 
-    /* ── PROJECTS ── */
-    .project {
-      display: grid;
-      grid-template-columns: 1fr 52px;
-      gap: 12px;
-      padding: 24px 0;
-      border-bottom: 1px solid var(--rule);
-      text-decoration: none;
-      color: inherit;
-    }
-    .project:first-child { border-top: 1px solid var(--rule); }
-    .project.linked:hover .proj-name { color: var(--accent); }
-    .project.linked:hover .proj-arrow { color: var(--accent); transform: translate(2px, -2px); }
+  .btn-ghost {
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 15px;
+    text-decoration: none;
+    padding: 14px 4px;
+    border-bottom: 1.5px solid var(--border);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--rust); color: var(--rust); }
 
-    .proj-meta {
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ink-soft);
-      margin-bottom: 7px;
-    }
-    .proj-name {
-      font-family: var(--serif);
-      font-size: clamp(1.05rem, 2vw, 1.3rem);
-      font-weight: 400;
-      letter-spacing: -0.01em;
-      color: var(--ink);
-      margin-bottom: 9px;
-      line-height: 1.2;
-      transition: color 0.15s;
-    }
-    .proj-desc {
-      font-size: 12.5px;
-      color: var(--ink-mid);
-      line-height: 1.75;
-      max-width: 500px;
-    }
-    .proj-status {
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-top: 10px;
-    }
-    .proj-status.live    { color: #5B8A5B; }
-    .proj-status.active  { color: var(--accent); }
-    .proj-status.ongoing { color: var(--ink-soft); }
+  /* ─── HERO VISUAL ─── */
+  .hero-visual {
+    position: relative;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 0.9s;
+  }
 
-    .proj-arrow {
-      font-size: 16px;
-      color: var(--rule);
-      transition: color 0.15s, transform 0.15s;
-      text-align: right;
-      padding-top: 3px;
-    }
+  .dashboard-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
+    border: 1px solid rgba(255,255,255,0.9);
+    position: relative;
+  }
 
-    /* ── NOW ── */
-    .now-table { width: 100%; }
-    .now-row {
-      display: grid;
-      grid-template-columns: 130px 1fr;
-      border-bottom: 1px solid var(--rule);
-    }
-    .now-row:first-child { border-top: 1px solid var(--rule); }
-    .now-key {
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ink-soft);
-      padding: 14px 0;
-      padding-right: 16px;
-    }
-    .now-val {
-      font-size: 13px;
-      color: var(--ink-mid);
-      padding: 14px 0;
-      line-height: 1.65;
-    }
-    .now-val a {
-      color: var(--ink);
-      text-decoration: none;
-      border-bottom: 1px solid var(--rule);
-      transition: color 0.15s, border-color 0.15s;
-    }
-    .now-val a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .dashboard-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .dashboard-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mist);
+  }
+  .dashboard-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #22c55e;
+    box-shadow: 0 0 8px #22c55e;
+    animation: pulse 2s ease infinite;
+  }
 
-    /* ── BACKGROUND ── */
-    .bio {
-      font-size: 13.5px;
-      color: var(--ink-mid);
-      line-height: 1.9;
-      max-width: 560px;
-    }
-    .bio p { margin-bottom: 1.5em; }
-    .bio p:last-child { margin-bottom: 0; }
-    .bio strong { color: var(--ink); font-weight: 400; }
+  .metric-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    margin-bottom: 20px;
+  }
+  .metric-box {
+    background: var(--paper);
+    border-radius: 10px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .metric-box::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--rust);
+    border-radius: 3px 0 0 3px;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.5s ease;
+  }
+  .metric-box:hover::after { transform: scaleY(1); }
+  .metric-label {
+    font-size: 11px; color: var(--mist); margin-bottom: 6px;
+    font-family: 'DM Mono', monospace; letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .metric-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--ink);
+    letter-spacing: -0.5px;
+  }
+  .metric-delta {
+    font-size: 11px;
+    color: #22c55e;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .metric-delta.neg { color: #ef4444; }
 
-    /* ── CONTACT ── */
-    .contact-intro {
-      font-family: var(--serif);
-      font-size: clamp(1.4rem, 3.2vw, 2.2rem);
-      font-weight: 400;
-      line-height: 1.22;
-      color: var(--ink);
-      margin-bottom: 44px;
-      letter-spacing: -0.015em;
-    }
-    .contact-intro em { font-style: italic; color: var(--ink-mid); }
+  .insight-row {
+    background: var(--ink);
+    border-radius: 10px;
+    padding: 14px 18px;
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .insight-icon {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: var(--rust);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 13px;
+  }
+  .insight-text {
+    font-size: 12.5px;
+    color: rgba(247,244,239,0.85);
+    line-height: 1.5;
+  }
+  .insight-text strong {
+    color: var(--paper);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 2px;
+    font-size: 13px;
+  }
 
-    .contact-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 15px 0;
-      border-bottom: 1px solid var(--rule);
-      text-decoration: none;
-      color: var(--ink);
-      transition: color 0.15s;
-    }
-    .contact-item:first-child { border-top: 1px solid var(--rule); }
-    .contact-item:hover,
-    .contact-item:hover .contact-label,
-    .contact-item:hover .contact-arrow { color: var(--accent); }
+  .float-badge {
+    position: absolute;
+    background: white;
+    border-radius: 10px;
+    padding: 10px 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+    display: flex; align-items: center; gap: 8px;
+    white-space: nowrap;
+  }
+  .float-badge-1 {
+    top: -18px; left: -30px;
+    animation: floatBadge 4s ease-in-out infinite;
+  }
+  .float-badge-2 {
+    bottom: -18px; right: -20px;
+    animation: floatBadge 4s ease-in-out infinite 2s;
+  }
+  @keyframes floatBadge { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
 
-    .contact-label {
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--ink-soft);
-      width: 90px;
-      flex-shrink: 0;
-      transition: color 0.15s;
-    }
-    .contact-value { font-size: 13px; flex: 1; }
-    .contact-arrow {
-      font-size: 14px;
-      color: var(--rule);
-      transition: color 0.15s, transform 0.15s;
-    }
-    .contact-item:hover .contact-arrow { transform: translate(2px, -2px); }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(24px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity:0; }
+    to { opacity:1; }
+  }
 
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--rule);
-      padding: 26px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .footer-l { font-size: 11px; letter-spacing: 0.06em; color: var(--ink-soft); }
-    .footer-r { font-size: 11px; letter-spacing: 0.06em; color: var(--rule); }
+  /* ─── MARQUEE ─── */
+  .marquee-wrap {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--cream);
+    overflow: hidden;
+    padding: 14px 0;
+  }
+  .marquee-track {
+    display: flex; gap: 60px;
+    width: max-content;
+    animation: marquee 20s linear infinite;
+  }
+  .marquee-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mist);
+    white-space: nowrap;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .marquee-item::after { content: '·'; color: var(--rust); }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-    /* ── REVEAL ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal.in { opacity: 1; transform: none; }
+  /* ─── SECTION BASE ─── */
+  section { padding: 100px 60px; }
+  .section-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 16px;
+    display: block;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(34px, 4vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -1px;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .section-title em { font-style: italic; color: var(--rust); }
+  .section-sub {
+    font-size: 17px;
+    color: var(--mist);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 560px;
+  }
 
-    @keyframes up {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: none; }
-    }
+  /* ─── PROBLEM ─── */
+  .problem-section {
+    background: var(--ink);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+  .problem-section::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(196,64,15,0.2), transparent 70%);
+    pointer-events: none;
+  }
+  .problem-section .section-tag { color: #d4960a; }
+  .problem-section .section-title { color: var(--paper); }
+  .problem-section .section-sub { color: rgba(247,244,239,0.6); }
 
-    @media (max-width: 520px) {
-      .nav-links { display: none; }
-      .now-row { grid-template-columns: 100px 1fr; }
-      .project { grid-template-columns: 1fr; }
-      .proj-arrow { display: none; }
-      footer { flex-direction: column; }
-    }
-  </style>
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 64px;
+  }
+  .problem-left { }
+  .problem-right {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-content: start;
+  }
+
+  .problem-card {
+    background: rgba(247,244,239,0.05);
+    border: 1px solid rgba(247,244,239,0.08);
+    border-radius: 12px;
+    padding: 24px;
+    transition: background 0.3s, transform 0.2s;
+    cursor: default;
+  }
+  .problem-card:hover {
+    background: rgba(247,244,239,0.09);
+    transform: translateY(-3px);
+  }
+  .problem-card-icon {
+    font-size: 22px;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .problem-card h3 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--paper);
+    margin-bottom: 8px;
+    font-family: 'DM Mono', monospace;
+  }
+  .problem-card p {
+    font-size: 14px;
+    color: rgba(247,244,239,0.55);
+    line-height: 1.6;
+  }
+
+  .big-stat {
+    margin-top: 40px;
+    padding: 28px;
+    background: rgba(196,64,15,0.15);
+    border: 1px solid rgba(196,64,15,0.3);
+    border-radius: 12px;
+  }
+  .big-stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 56px;
+    color: var(--rust-light);
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+  .big-stat-desc {
+    font-size: 15px;
+    color: rgba(247,244,239,0.6);
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+
+  /* ─── SOLUTION / PRODUCT ─── */
+  .product-section { background: white; }
+
+  .product-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: start;
+    margin-top: 64px;
+  }
+
+  .feature-list { display: flex; flex-direction: column; gap: 0; }
+  .feature-item {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    position: relative;
+    transition: padding-left 0.3s;
+  }
+  .feature-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 50%;
+    transform: translateY(-50%) scaleY(0);
+    width: 2px; height: 60%;
+    background: var(--rust);
+    transition: transform 0.3s;
+  }
+  .feature-item.active { padding-left: 16px; }
+  .feature-item.active::before { transform: translateY(-50%) scaleY(1); }
+  .feature-item:first-child { border-top: 1px solid var(--border); }
+
+  .feature-item-head {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .feature-item h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    transition: color 0.2s;
+  }
+  .feature-item.active h3 { color: var(--rust); }
+  .feature-item-arrow {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    transition: background 0.2s, transform 0.3s;
+    flex-shrink: 0;
+  }
+  .feature-item.active .feature-item-arrow {
+    background: var(--rust);
+    color: white;
+    transform: rotate(45deg);
+  }
+  .feature-item-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s;
+    opacity: 0;
+    font-size: 14px;
+    color: var(--mist);
+    line-height: 1.7;
+  }
+  .feature-item.active .feature-item-body {
+    max-height: 200px;
+    opacity: 1;
+    margin-top: 10px;
+  }
+
+  .product-visual {
+    position: sticky;
+    top: 120px;
+  }
+
+  .product-screen {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.08);
+  }
+  .product-screen-bar {
+    background: var(--ink);
+    padding: 12px 18px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .screen-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .screen-dot:nth-child(1) { background: #ef4444; }
+  .screen-dot:nth-child(2) { background: #f59e0b; }
+  .screen-dot:nth-child(3) { background: #22c55e; }
+  .screen-title {
+    margin-left: auto; margin-right: auto;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: rgba(247,244,239,0.4);
+    letter-spacing: 0.08em;
+  }
+  .product-screen-content {
+    padding: 24px;
+    background: #fafaf9;
+  }
+
+  .chart-wrap {
+    margin-bottom: 20px;
+  }
+  .chart-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--mist);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .bar-chart {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .bar-row {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .bar-name {
+    width: 80px;
+    font-size: 12px;
+    color: var(--mist);
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .bar-track {
+    flex: 1;
+    height: 22px;
+    background: var(--cream);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    position: relative;
+    display: flex; align-items: center; justify-content: flex-end;
+    padding-right: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    animation: barGrow 1.2s ease forwards;
+    transform-origin: left;
+  }
+  @keyframes barGrow { from{width:0!important} }
+  .bar-good { background: var(--rust); }
+  .bar-bad { background: #ef4444; }
+  .bar-mid { background: var(--gold); }
+
+  .ai-bubble {
+    background: var(--ink);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .ai-avatar {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: var(--rust);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: white;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .ai-text {
+    font-size: 12.5px;
+    color: rgba(247,244,239,0.8);
+    line-height: 1.6;
+  }
+  .ai-text strong { color: var(--paper); }
+
+  /* ─── MARKET ─── */
+  .market-section { background: var(--paper); }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 64px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .stat-cell {
+    padding: 44px 36px;
+    background: white;
+    position: relative;
+    transition: background 0.3s;
+  }
+  .stat-cell:hover { background: var(--ink); }
+  .stat-cell:hover .stat-num { color: var(--paper); }
+  .stat-cell:hover .stat-label { color: rgba(247,244,239,0.5); }
+  .stat-cell:hover .stat-desc { color: rgba(247,244,239,0.4); }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 52px;
+    letter-spacing: -2px;
+    color: var(--ink);
+    line-height: 1;
+    transition: color 0.3s;
+  }
+  .stat-accent { color: var(--rust); }
+  .stat-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-top: 8px;
+    transition: color 0.3s;
+  }
+  .stat-desc {
+    font-size: 13px;
+    color: var(--mist);
+    margin-top: 6px;
+    line-height: 1.5;
+    transition: color 0.3s;
+  }
+
+  /* ─── PRICING ─── */
+  .pricing-section { background: var(--cream); }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 64px;
+  }
+
+  .pricing-card {
+    background: white;
+    border-radius: 16px;
+    padding: 36px 28px;
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .pricing-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+  }
+  .pricing-card.featured {
+    background: var(--ink);
+    border-color: var(--ink);
+    transform: translateY(-8px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.15);
+  }
+  .pricing-card.featured:hover { transform: translateY(-14px); }
+
+  .pricing-badge {
+    position: absolute; top: 20px; right: 20px;
+    background: var(--rust);
+    color: white;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .pricing-tier {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mist);
+    margin-bottom: 12px;
+  }
+  .pricing-card.featured .pricing-tier { color: rgba(247,244,239,0.5); }
+  .pricing-price {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    color: var(--ink);
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .pricing-card.featured .pricing-price { color: var(--paper); }
+  .pricing-freq {
+    font-size: 13px;
+    color: var(--mist);
+    margin-bottom: 28px;
+  }
+  .pricing-card.featured .pricing-freq { color: rgba(247,244,239,0.5); }
+  .pricing-features {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 12px;
+    margin-bottom: 32px;
+  }
+  .pricing-features li {
+    font-size: 14px;
+    color: var(--ink);
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .pricing-card.featured .pricing-features li { color: rgba(247,244,239,0.8); }
+  .pricing-features li::before {
+    content: '→';
+    color: var(--rust);
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .pricing-btn {
+    display: block;
+    text-align: center;
+    padding: 13px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .pricing-btn-outline {
+    border: 1.5px solid var(--border);
+    color: var(--ink);
+  }
+  .pricing-btn-outline:hover { border-color: var(--ink); }
+  .pricing-btn-solid {
+    background: var(--rust);
+    color: white;
+  }
+  .pricing-btn-solid:hover { background: var(--rust-light); }
+
+  /* ─── MOAT ─── */
+  .moat-section { background: white; }
+  .moat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    margin-top: 64px;
+  }
+  .moat-card {
+    padding: 36px;
+    border-radius: 16px;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+  .moat-card:hover { transform: translateY(-4px); }
+  .moat-card::before {
+    content: attr(data-num);
+    position: absolute;
+    top: -20px; right: 20px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 100px;
+    color: rgba(196,64,15,0.05);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .moat-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 12px;
+    margin-top: 8px;
+  }
+  .moat-card p {
+    font-size: 14.5px;
+    color: var(--mist);
+    line-height: 1.7;
+  }
+  .moat-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--rust);
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+
+  /* ─── FOUNDER ─── */
+  .founder-section { background: var(--ink); color: var(--paper); }
+  .founder-section .section-tag { color: var(--gold); }
+  .founder-section .section-title { color: var(--paper); }
+
+  .founder-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 64px;
+  }
+
+  .founder-card {
+    background: rgba(247,244,239,0.04);
+    border: 1px solid rgba(247,244,239,0.08);
+    border-radius: 20px;
+    padding: 40px;
+  }
+
+  .founder-avatar {
+    width: 72px; height: 72px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--rust), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: white;
+    margin-bottom: 20px;
+  }
+
+  .founder-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--paper);
+    margin-bottom: 4px;
+  }
+  .founder-role {
+    font-size: 13px;
+    color: rgba(247,244,239,0.45);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .founder-bio {
+    font-size: 15px;
+    color: rgba(247,244,239,0.65);
+    line-height: 1.75;
+    margin-bottom: 28px;
+  }
+  .founder-chips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .founder-chip {
+    background: rgba(247,244,239,0.07);
+    border: 1px solid rgba(247,244,239,0.1);
+    color: rgba(247,244,239,0.7);
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .founder-credentials {
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .cred-item {
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .cred-dot {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: rgba(196,64,15,0.2);
+    border: 1px solid rgba(196,64,15,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .cred-content h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--paper);
+    margin-bottom: 3px;
+  }
+  .cred-content p {
+    font-size: 13.5px;
+    color: rgba(247,244,239,0.5);
+    line-height: 1.5;
+  }
+
+  /* ─── CTA ─── */
+  .cta-section {
+    background: var(--rust);
+    color: white;
+    text-align: center;
+    padding: 120px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .cta-section .section-title {
+    color: white;
+    max-width: 680px;
+    margin: 0 auto 20px;
+  }
+  .cta-section .section-sub {
+    color: rgba(255,255,255,0.7);
+    max-width: 500px;
+    margin: 0 auto 40px;
+  }
+  .cta-btns {
+    display: flex; gap: 16px; justify-content: center; align-items: center;
+  }
+  .btn-white {
+    background: white;
+    color: var(--rust);
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.2s;
+  }
+  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+  .btn-white-ghost {
+    color: white;
+    font-weight: 500;
+    font-size: 15px;
+    text-decoration: none;
+    padding: 14px 4px;
+    border-bottom: 1.5px solid rgba(255,255,255,0.4);
+    transition: border-color 0.2s;
+  }
+  .btn-white-ghost:hover { border-color: white; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink);
+    padding: 60px 60px 40px;
+    color: rgba(247,244,239,0.4);
+  }
+  .footer-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 48px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(247,244,239,0.06);
+  }
+  .footer-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    color: var(--paper);
+    margin-bottom: 8px;
+  }
+  .footer-tagline {
+    font-size: 13px;
+    max-width: 260px;
+    line-height: 1.6;
+  }
+  .footer-links-col h4 {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(247,244,239,0.6);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 16px;
+  }
+  .footer-links-col a {
+    display: block;
+    font-size: 14px;
+    color: rgba(247,244,239,0.35);
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: color 0.2s;
+  }
+  .footer-links-col a:hover { color: var(--paper); }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px;
+  }
+  .footer-mono {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: rgba(247,244,239,0.2);
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    nav.scrolled { padding: 12px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 120px 24px 60px; gap: 48px; }
+    .hero-visual { display: none; }
+    section { padding: 72px 24px; }
+    .problem-grid, .product-layout, .founder-layout { grid-template-columns: 1fr; gap: 40px; }
+    .problem-right { grid-template-columns: 1fr 1fr; }
+    .stats-row, .pricing-grid, .moat-grid { grid-template-columns: 1fr; }
+    .pricing-card.featured { transform: none; }
+    footer { padding: 48px 24px 32px; }
+    .footer-top { flex-direction: column; gap: 32px; }
+    .cta-section { padding: 80px 24px; }
+    .cta-btns { flex-direction: column; }
+  }
+</style>
 </head>
 <body>
 
-<div class="nav-wrap" id="nav-wrap">
-  <nav>
-    <a href="#top" class="nav-name">Shriman Maheshwari</a>
-    <ul class="nav-links">
-      <li><a href="#building">Building</a></li>
-      <li><a href="#now">Now</a></li>
-      <li><a href="#background">Background</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-</div>
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-mark">SL</div>
+    Shriman Labs
+  </a>
+  <ul class="nav-links">
+    <li><a href="#product">Product</a></li>
+    <li><a href="#market">Market</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="nav-cta">Request Access</a></li>
+  </ul>
+</nav>
 
-<div class="page">
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-circle hero-bg-circle-1"></div>
+  <div class="hero-bg-circle hero-bg-circle-2"></div>
 
-  <!-- HERO -->
-  <div id="top">
-    <p class="hero-eyebrow">Shriman Maheshwari</p>
-    <h1>Building intelligence<br>for the businesses<br>that <em>built India.</em></h1>
-    <p class="hero-body">
-      CS undergraduate at BITS Pilani, Goa. Founder-in-progress.
-      I grew up inside a B2B electrical distribution business in Mumbai —
-      and I'm building the tools that business always needed.
-    </p>
-    <div class="hero-tags">
-      <span class="tag">BITS Pilani → CentraleSupélec Paris '29</span>
-      <span class="tag">180DC · Junior Associate</span>
-      <span class="tag">Mumbai</span>
+  <div class="hero-content">
+    <span class="hero-tag">NerveSight · AI Analytics Layer</span>
+    <h1 class="hero-title">The <em>operating brain</em> for India's distributors.</h1>
+    <p class="hero-sub">Your Tally data already holds the answers. NerveSight surfaces them — customer intelligence, margin analysis, cash flow forecasting — in real time. No migration. No new tools.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">
+        Request Early Access
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#product" class="btn-ghost">See how it works</a>
     </div>
   </div>
 
-  <!-- BUILDING -->
-  <section id="building">
-    <div class="section-header reveal">
-      <span class="section-label">Building</span>
-      <span class="section-index">01</span>
+  <div class="hero-visual">
+    <div class="float-badge float-badge-1">
+      <span style="color:#22c55e;font-size:18px">↑</span> 14% margin recovery this quarter
     </div>
-
-    <div>
-      <div class="project reveal">
-        <div>
-          <p class="proj-meta">AI · SaaS · SME Infrastructure</p>
-          <p class="proj-name">NerveSight — AI Intelligence Layer for Tally</p>
-          <p class="proj-desc">
-            63 million SME distributors in India run on Tally.
-            Tally records what happened. NerveSight answers why —
-            and what you should do next. A prescriptive analytics layer
-            that sits on top of data businesses already have,
-            without replacing a single existing system.
-          </p>
-          <p class="proj-status active">● Active · Concept &amp; Design Stage</p>
+    <div class="dashboard-card">
+      <div class="dashboard-header">
+        <span class="dashboard-title">NerveSight · Live Intelligence</span>
+        <div class="dashboard-dot"></div>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-box">
+          <div class="metric-label">Gross Margin</div>
+          <div class="metric-val">31.4%</div>
+          <div class="metric-delta">↑ 2.8% vs last qtr</div>
         </div>
-        <span class="proj-arrow">↗</span>
-      </div>
-
-      <div class="project reveal">
-        <div>
-          <p class="proj-meta">SaaS · Google Apps Script · Mobile-first</p>
-          <p class="proj-name">Orderly — Order Management for Instagram Sellers</p>
-          <p class="proj-desc">
-            India's small Instagram sellers manage hundreds of orders across WhatsApp and DMs.
-            Orderly is a lightweight system built on Google Sheets and Apps Script —
-            mobile-first order form, PIN-authenticated seller dashboard,
-            and automated email notifications. Built, debugged, deployed.
-          </p>
-          <p class="proj-status live">● Deployed · Live</p>
+        <div class="metric-box">
+          <div class="metric-label">At-Risk Dues</div>
+          <div class="metric-val">₹4.2L</div>
+          <div class="metric-delta neg">3 accounts flagged</div>
         </div>
-        <span class="proj-arrow">↗</span>
-      </div>
-
-      <div class="project reveal">
-        <div>
-          <p class="proj-meta">Strategy · Operations · Family Enterprise</p>
-          <p class="proj-name">Shriman Electricals — Distribution Strategy</p>
-          <p class="proj-desc">
-            My family has run a multi-generational B2B electrical distribution
-            business in Mumbai. Since 2023 I've been directly involved —
-            analysing SKU-level performance, identifying underperforming segments,
-            mapping supplier dynamics. This is the problem source. Not the pitch.
-          </p>
-          <p class="proj-status ongoing">● Ongoing</p>
+        <div class="metric-box">
+          <div class="metric-label">Top Segment</div>
+          <div class="metric-val">Wire</div>
+          <div class="metric-delta">68% of margin</div>
         </div>
-        <span class="proj-arrow"></span>
+        <div class="metric-box">
+          <div class="metric-label">Dead Stock</div>
+          <div class="metric-val">₹1.8L</div>
+          <div class="metric-delta neg">Exit recommended</div>
+        </div>
+      </div>
+      <div class="insight-row">
+        <div class="insight-icon">⚡</div>
+        <div class="insight-text">
+          <strong>Prescriptive Alert</strong>
+          Customer "Mehta Electricals" has missed 3 payment cycles. Risk of ₹2.1L bad debt. Recommend credit hold and follow-up within 72 hours.
+        </div>
       </div>
     </div>
-  </section>
-
-  <!-- NOW -->
-  <section id="now">
-    <div class="section-header reveal">
-      <span class="section-label">Now</span>
-      <span class="section-index">02</span>
+    <div class="float-badge float-badge-2">
+      <span style="color:var(--rust);font-size:16px">⚠</span> Exit 2 SKUs · Save ₹60K/mo
     </div>
+  </div>
+</section>
 
-    <div class="now-table reveal">
-      <div class="now-row">
-        <div class="now-key">Studying</div>
-        <div class="now-val">Y1 CS @ BITS Pilani, Goa. EEE, Maths, Programming.</div>
-      </div>
-      <div class="now-row">
-        <div class="now-key">Building</div>
-        <div class="now-val">NerveSight — formalising the concept, building the pitch, finding the first design partner among real distributors.</div>
-      </div>
-      <div class="now-row">
-        <div class="now-key">Consulting</div>
-        <div class="now-val">Junior Associate at <a href="https://180dc.org" target="_blank" rel="noopener">180 Degrees Consulting</a>, BITS Goa.</div>
-      </div>
-      <div class="now-row">
-        <div class="now-key">Applying</div>
-        <div class="now-val">Antler India · Entrepreneurs First Bangalore.</div>
-      </div>
-      <div class="now-row">
-        <div class="now-key">Learning</div>
-        <div class="now-val">Financial modelling. French. The gap between strategy and execution.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- BACKGROUND -->
-  <section id="background">
-    <div class="section-header reveal">
-      <span class="section-label">Background</span>
-      <span class="section-index">03</span>
-    </div>
-
-    <div class="bio reveal">
-      <p>
-        I'm 18, from Mumbai. My father built a B2B electrical distribution business from scratch —
-        <strong>Shriman Electricals</strong> — and I grew up watching how traditional trade actually works:
-        the margins, the supplier relationships, the chaos of inventory that never quite maps to demand.
-        That proximity to a real, unglamorous business is the lens through which I think about technology.
-      </p>
-      <p>
-        I started early. GPU mining at 13. A Chia pivot when the economics shifted.
-        Live capital trading across Indian equities, built decision frameworks around
-        RSI, EMA, and macro signals. Eventually wrote API-based market monitoring
-        systems on Zerodha and Groww. None of it was academic. All of it had skin in the game.
-      </p>
-      <p>
-        I'm now studying Computer Science at <strong>BITS Pilani, Goa</strong> — on a dual-degree track
-        to <strong>CentraleSupélec Paris</strong> for years three and four, where I'll specialise in AI.
-        The path is deliberate: technical depth in Europe, market intuition built at home, and a thesis
-        about the 63 million Indian distributors still waiting for their infrastructure moment.
-      </p>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="section-header reveal">
-      <span class="section-label">Contact</span>
-      <span class="section-index">04</span>
-    </div>
-
-    <p class="contact-intro reveal">
-      If you're building something <em>serious,</em><br>
-      or backing someone who is —
-    </p>
-
-    <div class="reveal">
-      <a href="mailto:shriman181@gmail.com" class="contact-item">
-        <span class="contact-label">Email</span>
-        <span class="contact-value">shriman181@gmail.com</span>
-        <span class="contact-arrow">↗</span>
-      </a>
-      <a href="https://linkedin.com/in/shriman-maheshwari" target="_blank" rel="noopener" class="contact-item">
-        <span class="contact-label">LinkedIn</span>
-        <span class="contact-value">shriman-maheshwari</span>
-        <span class="contact-arrow">↗</span>
-      </a>
-      <a href="https://github.com/shriman" target="_blank" rel="noopener" class="contact-item">
-        <span class="contact-label">GitHub</span>
-        <span class="contact-value">github.com/shriman</span>
-        <span class="contact-arrow">↗</span>
-      </a>
-    </div>
-  </section>
-
-  <footer class="reveal">
-    <span class="footer-l">Shriman Maheshwari · Mumbai / Goa</span>
-    <span class="footer-r">shriman.me</span>
-  </footer>
-
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Customer Intelligence</span>
+    <span class="marquee-item">Margin Analytics</span>
+    <span class="marquee-item">Cash Flow Forecasting</span>
+    <span class="marquee-item">SKU Performance</span>
+    <span class="marquee-item">Workforce Mapping</span>
+    <span class="marquee-item">Tally-Native</span>
+    <span class="marquee-item">Prescriptive AI</span>
+    <span class="marquee-item">SME-Priced</span>
+    <span class="marquee-item">Customer Intelligence</span>
+    <span class="marquee-item">Margin Analytics</span>
+    <span class="marquee-item">Cash Flow Forecasting</span>
+    <span class="marquee-item">SKU Performance</span>
+    <span class="marquee-item">Workforce Mapping</span>
+    <span class="marquee-item">Tally-Native</span>
+    <span class="marquee-item">Prescriptive AI</span>
+    <span class="marquee-item">SME-Priced</span>
+  </div>
 </div>
 
-<script>
-  const navWrap = document.getElementById('nav-wrap');
-  window.addEventListener('scroll', () => {
-    navWrap.classList.toggle('scrolled', window.scrollY > 40);
-  }, { passive: true });
+<!-- PROBLEM -->
+<section class="problem-section" id="problem">
+  <span class="section-tag">01 · The Problem</span>
+  <div class="problem-grid">
+    <div class="problem-left">
+      <h2 class="section-title">Distributors have data.<br>They have <em>zero intelligence.</em></h2>
+      <p class="section-sub">Every SME distributor uses Tally, Busy, or Marg. These are ledgers, not brains — they record what happened, never why, and never what to do next.</p>
+      <div class="big-stat">
+        <div class="big-stat-num">8–12%</div>
+        <div class="big-stat-desc">Of gross margin lost annually — to decisions distributors already had the data to make correctly. They just couldn't read it.</div>
+      </div>
+    </div>
+    <div class="problem-right reveal">
+      <div class="problem-card">
+        <span class="problem-card-icon">📉</span>
+        <h3>Margin Bleed</h3>
+        <p>No visibility into which customers, segments, or SKUs are silently destroying profitability.</p>
+      </div>
+      <div class="problem-card reveal reveal-delay-1">
+        <span class="problem-card-icon">👁️</span>
+        <h3>Workforce Blindness</h3>
+        <p>No data on which sales territories or executives are underperforming vs overextended.</p>
+      </div>
+      <div class="problem-card reveal reveal-delay-2">
+        <span class="problem-card-icon">📦</span>
+        <h3>Zero Forecasting</h3>
+        <p>Inventory decided on gut. Stockouts and dead stock coexist in the same warehouse.</p>
+      </div>
+      <div class="problem-card reveal reveal-delay-3">
+        <span class="problem-card-icon">🔍</span>
+        <h3>Competitor Opacity</h3>
+        <p>No awareness of pricing shifts, new products, or regional competitive threats.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-  const io = new IntersectionObserver(entries => {
+<!-- PRODUCT -->
+<section class="product-section" id="product">
+  <span class="section-tag">02 · The Solution</span>
+  <h2 class="section-title">Plug into Tally.<br>Ask anything. <em>Act immediately.</em></h2>
+  <p class="section-sub">NerveSight is an AI analytics layer on top of the accounting software distributors already use. Zero migration. Zero new data entry. The equivalent of a ₹50L/year CFO — as a SaaS subscription.</p>
+
+  <div class="product-layout">
+    <div class="feature-list reveal" id="featureList">
+      <div class="feature-item active" data-idx="0">
+        <div class="feature-item-head">
+          <h3>Customer Intelligence</h3>
+          <div class="feature-item-arrow">+</div>
+        </div>
+        <div class="feature-item-body">Identifies top generators vs margin destroyers. Flags churn risk before it happens. Surfaces payment risk with 72-hour advance alerts so you act before bad debt forms.</div>
+      </div>
+      <div class="feature-item" data-idx="1">
+        <div class="feature-item-head">
+          <h3>Product & Segment Analytics</h3>
+          <div class="feature-item-arrow">+</div>
+        </div>
+        <div class="feature-item-body">Shows profitable SKUs vs dead weight with exact margin contribution per product line. Prescribes reallocation actions — what to exit, what to double down on.</div>
+      </div>
+      <div class="feature-item" data-idx="2">
+        <div class="feature-item-head">
+          <h3>Workforce Performance</h3>
+          <div class="feature-item-arrow">+</div>
+        </div>
+        <div class="feature-item-body">Region-wise sales effectiveness mapped against targets and opportunity. Know which executives are overextended versus underperforming before the quarter closes.</div>
+      </div>
+      <div class="feature-item" data-idx="3">
+        <div class="feature-item-head">
+          <h3>Cash Flow Forecasting</h3>
+          <div class="feature-item-arrow">+</div>
+        </div>
+        <div class="feature-item-body">Predictive collections model — flags at-risk dues before they default. Builds a 90-day cash picture from your live Tally data, updated every sync cycle.</div>
+      </div>
+      <div class="feature-item" data-idx="4">
+        <div class="feature-item-head">
+          <h3>Market Signal Intelligence <span style="font-size:10px;background:var(--rust);color:white;padding:2px 6px;border-radius:3px;margin-left:8px;font-family:DM Mono;letter-spacing:0.06em">Phase 2</span></h3>
+          <div class="feature-item-arrow">+</div>
+        </div>
+        <div class="feature-item-body">Commodity price signal integration: alerts on when to pre-buy inventory based on live market data. Operational intelligence meets financial markets — no one else sits at this intersection.</div>
+      </div>
+    </div>
+
+    <div class="product-visual reveal reveal-delay-2">
+      <div class="product-screen">
+        <div class="product-screen-bar">
+          <div class="screen-dot"></div>
+          <div class="screen-dot"></div>
+          <div class="screen-dot"></div>
+          <div class="screen-title">nervesight.shriman.me</div>
+        </div>
+        <div class="product-screen-content">
+          <div class="chart-wrap">
+            <div class="chart-label">Customer Margin Contribution</div>
+            <div class="bar-chart">
+              <div class="bar-row">
+                <div class="bar-name">Sharma Co.</div>
+                <div class="bar-track"><div class="bar-fill bar-good" style="width:82%">₹4.1L</div></div>
+              </div>
+              <div class="bar-row">
+                <div class="bar-name">Gupta Elec.</div>
+                <div class="bar-track"><div class="bar-fill bar-good" style="width:61%">₹3.0L</div></div>
+              </div>
+              <div class="bar-row">
+                <div class="bar-name">Patel Bros.</div>
+                <div class="bar-track"><div class="bar-fill bar-mid" style="width:38%">₹1.9L</div></div>
+              </div>
+              <div class="bar-row">
+                <div class="bar-name">Mehta Elec.</div>
+                <div class="bar-track"><div class="bar-fill bar-bad" style="width:14%">-₹0.7L</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="ai-bubble">
+            <div class="ai-avatar">NS</div>
+            <div class="ai-text"><strong>NerveSight recommends:</strong> Mehta Electricals is a net margin destroyer. Credit exposure is ₹2.8L with 94-day avg. payment cycle. Recommend credit limit freeze and strategic account review within 5 days.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARKET -->
+<section class="market-section" id="market">
+  <span class="section-tag reveal">03 · Market Opportunity</span>
+  <h2 class="section-title reveal">A $329M BI market with<br><em>30% completely locked out.</em></h2>
+  <p class="section-sub reveal">Nearly 30% of Indian SMEs cannot adopt advanced BI — not due to lack of need, but because every existing tool is built for enterprises: too expensive, too complex, blind to B2B trade reality.</p>
+
+  <div class="stats-row">
+    <div class="stat-cell reveal">
+      <div class="stat-num">63<span class="stat-accent">M</span></div>
+      <div class="stat-label">SMEs in India</div>
+      <div class="stat-desc">Running on Tally, Busy, or Marg with zero analytics layer above them.</div>
+    </div>
+    <div class="stat-cell reveal reveal-delay-2">
+      <div class="stat-num">$329<span class="stat-accent">M</span></div>
+      <div class="stat-label">India BI market today</div>
+      <div class="stat-desc">Growing at 35.8% CAGR to 2030. The SME segment is the uncaptured opportunity.</div>
+    </div>
+    <div class="stat-cell reveal reveal-delay-3">
+      <div class="stat-num">35<span class="stat-accent">%</span></div>
+      <div class="stat-label">Analytics CAGR to 2030</div>
+      <div class="stat-desc">Fastest growing segment: B2B distribution — electrical, hardware, FMCG, pharma.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <span class="section-tag reveal">04 · Business Model</span>
+  <h2 class="section-title reveal">SaaS priced for SME adoption.<br><em>Built for enterprise retention.</em></h2>
+  <p class="section-sub reveal">Once a distributor can see their business clearly, going back to blindness is not an option. The switching cost is psychological, not contractual — the strongest moat of all.</p>
+
+  <div class="pricing-grid">
+    <div class="pricing-card reveal">
+      <div class="pricing-tier">Starter</div>
+      <div class="pricing-price">₹2,499</div>
+      <div class="pricing-freq">per month</div>
+      <ul class="pricing-features">
+        <li>Core analytics dashboard</li>
+        <li>Customer intelligence module</li>
+        <li>Top 5 actionable insights</li>
+        <li>Tally sync (daily)</li>
+        <li>Email alerts</li>
+      </ul>
+      <a href="#contact" class="pricing-btn pricing-btn-outline">Get Started</a>
+    </div>
+    <div class="pricing-card featured reveal reveal-delay-2">
+      <div class="pricing-badge">Most Popular</div>
+      <div class="pricing-tier">Growth</div>
+      <div class="pricing-price" style="color:var(--paper)">₹5,999</div>
+      <div class="pricing-freq">per month</div>
+      <ul class="pricing-features">
+        <li>Full analytics suite</li>
+        <li>Workforce performance module</li>
+        <li>Cash flow forecasting</li>
+        <li>Tally sync (real-time)</li>
+        <li>Priority support</li>
+        <li>Unlimited insights</li>
+      </ul>
+      <a href="#contact" class="pricing-btn pricing-btn-solid">Request Access</a>
+    </div>
+    <div class="pricing-card reveal reveal-delay-3">
+      <div class="pricing-tier">Intelligence</div>
+      <div class="pricing-price">₹12,999</div>
+      <div class="pricing-freq">per month</div>
+      <ul class="pricing-features">
+        <li>Everything in Growth</li>
+        <li>Commodity price signals</li>
+        <li>Competitor tracking</li>
+        <li>Market intelligence alerts</li>
+        <li>Dedicated account manager</li>
+      </ul>
+      <a href="#contact" class="pricing-btn pricing-btn-outline">Contact Sales</a>
+    </div>
+  </div>
+</section>
+
+<!-- MOAT -->
+<section class="moat-section">
+  <span class="section-tag reveal">05 · Defensibility</span>
+  <h2 class="section-title reveal">Four compounding advantages.<br><em>Three cannot be bought.</em></h2>
+
+  <div class="moat-grid">
+    <div class="moat-card reveal" data-num="1">
+      <div class="moat-num">01 ·</div>
+      <h3>Domain Data Network Effect</h3>
+      <p>Every distributor using NerveSight enriches our understanding of Indian B2B trade patterns — pricing cycles, seasonal demand, regional variance. Proprietary intelligence no entrant can replicate.</p>
+    </div>
+    <div class="moat-card reveal reveal-delay-2" data-num="2">
+      <div class="moat-num">02 ·</div>
+      <h3>Founder–Market Fit That Cannot Be Faked</h3>
+      <p>3 years embedded inside a real B2B distribution business, from age 15. We know the exact questions an owner asks at 11pm when the quarter is ending. We build the right features first.</p>
+    </div>
+    <div class="moat-card reveal reveal-delay-1" data-num="3">
+      <div class="moat-num">03 ·</div>
+      <h3>Tally Integration Depth</h3>
+      <p>Deep native integration that competitors have no incentive to build — they chase enterprise clients. Creates a structural moat in the SME segment for 3–5 years.</p>
+    </div>
+    <div class="moat-card reveal reveal-delay-3" data-num="4">
+      <div class="moat-num">04 ·</div>
+      <h3>Financial Market Intelligence Layer</h3>
+      <p>Connecting operational data to commodity price signals. No one else sits at this intersection — because no one else has the background in both B2B distribution and financial markets.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section class="founder-section" id="about">
+  <span class="section-tag">06 · Why Us</span>
+  <h2 class="section-title">The unfair advantages<br>aren't on the résumé.</h2>
+
+  <div class="founder-layout">
+    <div class="founder-card reveal">
+      <div class="founder-avatar">SM</div>
+      <div class="founder-name">Shriman Maheshwari</div>
+      <div class="founder-role">Founder · Shriman Labs</div>
+      <p class="founder-bio">Operator before engineer. Three years embedded in a real B2B distribution business — I understand the P&L, supplier dynamics, and customer psychology from being in the room, not a case study. Ran GPU mining rigs and traded live capital across crypto and equity at 13. Every mistake showed up in the P&L the same day.</p>
+      <div class="founder-chips">
+        <span class="founder-chip">BITS Pilani · CS</span>
+        <span class="founder-chip">CentraleSupélec · AI</span>
+        <span class="founder-chip">180DC Consulting</span>
+        <span class="founder-chip">Live Capital Trading</span>
+        <span class="founder-chip">B2B Distribution</span>
+      </div>
+    </div>
+
+    <div class="founder-credentials reveal reveal-delay-2">
+      <div class="cred-item">
+        <div class="cred-dot">🏗️</div>
+        <div class="cred-content">
+          <h4>Operator Before Engineer</h4>
+          <p>3 years inside Shriman Electricals — identified margin bleed by customer segment, recommended strategic exits that the business executed. A live case study, not a demo.</p>
+        </div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-dot">📈</div>
+        <div class="cred-content">
+          <h4>Built Under Real Financial Pressure</h4>
+          <p>Traded live capital across crypto and equity markets from age 13. Every mistake showed up in the P&L the same day. That's how systems thinking is actually built.</p>
+        </div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-dot">🎓</div>
+        <div class="cred-content">
+          <h4>Dual-Degree AI Edge</h4>
+          <p>CS at BITS Pilani + AI at CentraleSupélec — France's #2 Grande École. The AI curriculum directly accelerates NerveSight's intelligence layer.</p>
+        </div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-dot">🔬</div>
+        <div class="cred-content">
+          <h4>First-Principles Thinker</h4>
+          <p>Self-prepared for JEE — 96th percentile. Identified Chia Coin opportunity before mainstream by reading Proof-of-Work economics, not forums. Pattern recognition from first principles.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <h2 class="section-title">India's SME distributors<br>don't need another ERP.</h2>
+  <p class="section-sub">They need a brain. We are building it. Join the early access cohort — Mumbai electrical and hardware distributors onboarding now.</p>
+  <div class="cta-btns">
+    <a href="mailto:hello@shriman.me" class="btn-white">Request Early Access</a>
+    <a href="mailto:hello@shriman.me" class="btn-white-ghost">Talk to the founder</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">Shriman Labs</div>
+      <div class="footer-tagline">Building the operating brain for India's 63 million SME distributors.</div>
+    </div>
+    <div style="display:flex;gap:64px">
+      <div class="footer-links-col">
+        <h4>Product</h4>
+        <a href="#product">NerveSight</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Early Access</a>
+      </div>
+      <div class="footer-links-col">
+        <h4>Company</h4>
+        <a href="#about">About</a>
+        <a href="mailto:hello@shriman.me">Contact</a>
+        <a href="mailto:investors@shriman.me">For Investors</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Shriman Labs. Mumbai, India.</span>
+    <span class="footer-mono">shriman.me · hello@shriman.me</span>
+  </div>
+</footer>
+
+<script>
+  // Navbar scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
     });
-  }, { threshold: 0.07, rootMargin: '0px 0px -32px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // Feature accordion
+  const featureItems = document.querySelectorAll('.feature-item');
+  featureItems.forEach(item => {
+    item.addEventListener('click', () => {
+      featureItems.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+    });
+  });
+
+  // Animated counter
+  function animateCounter(el, target, suffix = '') {
+    let start = 0;
+    const duration = 1800;
+    const step = timestamp => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  // Bar chart animation on scroll
+  const bars = document.querySelectorAll('.bar-fill');
+  const barObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.animationPlayState = 'running';
+        barObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  bars.forEach(b => {
+    b.style.animationPlayState = 'paused';
+    barObs.observe(b);
+  });
 </script>
+
 </body>
 </html>
