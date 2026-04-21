@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shriman Maheshwari</title>
+  <meta name="description" content="Building intelligence for the businesses that built India. CS @ BITS Pilani → CentraleSupélec Paris." />
+  <meta property="og:title" content="Shriman Maheshwari" />
+  <meta property="og:description" content="Building intelligence for the businesses that built India." />
+  <meta property="og:url" content="https://shriman.me" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --bg:       #F9F7F4;
+      --ink:      #0F0E0C;
+      --ink-mid:  #4A4744;
+      --ink-soft: #9A9490;
+      --accent:   #B85C2C;
+      --rule:     #E2DDD8;
+      --serif:    'Instrument Serif', Georgia, serif;
+      --mono:     'Geist Mono', 'Courier New', monospace;
+      --col:      680px;
+      --pad:      clamp(24px, 7vw, 96px);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 13.5px;
+      font-weight: 300;
+      line-height: 1.75;
+      letter-spacing: 0.01em;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)'/%3E%3C/svg%3E");
+      background-size: 200px;
+    }
+
+    /* ── LAYOUT ── */
+    .page {
+      max-width: calc(var(--col) + var(--pad) * 2);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    /* ── NAV ── */
+    .nav-wrap {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(249, 247, 244, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.4s;
+    }
+    .nav-wrap.scrolled { border-bottom-color: var(--rule); }
+
+    nav {
+      max-width: calc(var(--col) + var(--pad) * 2);
+      margin: 0 auto;
+      padding: 20px var(--pad);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-name {
+      font-family: var(--serif);
+      font-size: 15px;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── HERO ── */
+    #top {
+      padding-top: clamp(120px, 22vh, 176px);
+      padding-bottom: clamp(72px, 14vh, 112px);
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: up 0.55s ease forwards 0.05s;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 5.8vw, 4rem);
+      font-weight: 400;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: up 0.65s ease forwards 0.14s;
+    }
+    h1 em { font-style: italic; color: var(--ink-mid); }
+
+    .hero-body {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.85;
+      max-width: 460px;
+      opacity: 0;
+      animation: up 0.65s ease forwards 0.26s;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 32px;
+      opacity: 0;
+      animation: up 0.55s ease forwards 0.38s;
+    }
+    .tag {
+      font-size: 10.5px;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      border: 1px solid var(--rule);
+      padding: 5px 11px;
+      border-radius: 2px;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: clamp(52px, 9vh, 88px) 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 44px;
+    }
+    .section-label {
+      font-size: 10.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .section-index {
+      font-size: 10.5px;
+      letter-spacing: 0.08em;
+      color: var(--rule);
+    }
+
+    /* ── PROJECTS ── */
+    .project {
+      display: grid;
+      grid-template-columns: 1fr 52px;
+      gap: 12px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+      color: inherit;
+    }
+    .project:first-child { border-top: 1px solid var(--rule); }
+    .project.linked:hover .proj-name { color: var(--accent); }
+    .project.linked:hover .proj-arrow { color: var(--accent); transform: translate(2px, -2px); }
+
+    .proj-meta {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 7px;
+    }
+    .proj-name {
+      font-family: var(--serif);
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 9px;
+      line-height: 1.2;
+      transition: color 0.15s;
+    }
+    .proj-desc {
+      font-size: 12.5px;
+      color: var(--ink-mid);
+      line-height: 1.75;
+      max-width: 500px;
+    }
+    .proj-status {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+    .proj-status.live    { color: #5B8A5B; }
+    .proj-status.active  { color: var(--accent); }
+    .proj-status.ongoing { color: var(--ink-soft); }
+
+    .proj-arrow {
+      font-size: 16px;
+      color: var(--rule);
+      transition: color 0.15s, transform 0.15s;
+      text-align: right;
+      padding-top: 3px;
+    }
+
+    /* ── NOW ── */
+    .now-table { width: 100%; }
+    .now-row {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      border-bottom: 1px solid var(--rule);
+    }
+    .now-row:first-child { border-top: 1px solid var(--rule); }
+    .now-key {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      padding: 14px 0;
+      padding-right: 16px;
+    }
+    .now-val {
+      font-size: 13px;
+      color: var(--ink-mid);
+      padding: 14px 0;
+      line-height: 1.65;
+    }
+    .now-val a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .now-val a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ── BACKGROUND ── */
+    .bio {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.9;
+      max-width: 560px;
+    }
+    .bio p { margin-bottom: 1.5em; }
+    .bio p:last-child { margin-bottom: 0; }
+    .bio strong { color: var(--ink); font-weight: 400; }
+
+    /* ── CONTACT ── */
+    .contact-intro {
+      font-family: var(--serif);
+      font-size: clamp(1.4rem, 3.2vw, 2.2rem);
+      font-weight: 400;
+      line-height: 1.22;
+      color: var(--ink);
+      margin-bottom: 44px;
+      letter-spacing: -0.015em;
+    }
+    .contact-intro em { font-style: italic; color: var(--ink-mid); }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+      color: var(--ink);
+      transition: color 0.15s;
+    }
+    .contact-item:first-child { border-top: 1px solid var(--rule); }
+    .contact-item:hover,
+    .contact-item:hover .contact-label,
+    .contact-item:hover .contact-arrow { color: var(--accent); }
+
+    .contact-label {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      width: 90px;
+      flex-shrink: 0;
+      transition: color 0.15s;
+    }
+    .contact-value { font-size: 13px; flex: 1; }
+    .contact-arrow {
+      font-size: 14px;
+      color: var(--rule);
+      transition: color 0.15s, transform 0.15s;
+    }
+    .contact-item:hover .contact-arrow { transform: translate(2px, -2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 26px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .footer-l { font-size: 11px; letter-spacing: 0.06em; color: var(--ink-soft); }
+    .footer-r { font-size: 11px; letter-spacing: 0.06em; color: var(--rule); }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    @keyframes up {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    @media (max-width: 520px) {
+      .nav-links { display: none; }
+      .now-row { grid-template-columns: 100px 1fr; }
+      .project { grid-template-columns: 1fr; }
+      .proj-arrow { display: none; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="nav-wrap" id="nav-wrap">
+  <nav>
+    <a href="#top" class="nav-name">Shriman Maheshwari</a>
+    <ul class="nav-links">
+      <li><a href="#building">Building</a></li>
+      <li><a href="#now">Now</a></li>
+      <li><a href="#background">Background</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</div>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div id="top">
+    <p class="hero-eyebrow">Shriman Maheshwari</p>
+    <h1>Building intelligence<br>for the businesses<br>that <em>built India.</em></h1>
+    <p class="hero-body">
+      CS undergraduate at BITS Pilani, Goa. Founder-in-progress.
+      I grew up inside a B2B electrical distribution business in Mumbai —
+      and I'm building the tools that business always needed.
+    </p>
+    <div class="hero-tags">
+      <span class="tag">BITS Pilani → CentraleSupélec Paris '29</span>
+      <span class="tag">180DC · Junior Associate</span>
+      <span class="tag">Mumbai</span>
+    </div>
+  </div>
+
+  <!-- BUILDING -->
+  <section id="building">
+    <div class="section-header reveal">
+      <span class="section-label">Building</span>
+      <span class="section-index">01</span>
+    </div>
+
+    <div>
+      <div class="project reveal">
+        <div>
+          <p class="proj-meta">AI · SaaS · SME Infrastructure</p>
+          <p class="proj-name">NerveSight — AI Intelligence Layer for Tally</p>
+          <p class="proj-desc">
+            63 million SME distributors in India run on Tally.
+            Tally records what happened. NerveSight answers why —
+            and what you should do next. A prescriptive analytics layer
+            that sits on top of data businesses already have,
+            without replacing a single existing system.
+          </p>
+          <p class="proj-status active">● Active · Concept &amp; Design Stage</p>
+        </div>
+        <span class="proj-arrow">↗</span>
+      </div>
+
+      <div class="project reveal">
+        <div>
+          <p class="proj-meta">SaaS · Google Apps Script · Mobile-first</p>
+          <p class="proj-name">Orderly — Order Management for Instagram Sellers</p>
+          <p class="proj-desc">
+            India's small Instagram sellers manage hundreds of orders across WhatsApp and DMs.
+            Orderly is a lightweight system built on Google Sheets and Apps Script —
+            mobile-first order form, PIN-authenticated seller dashboard,
+            and automated email notifications. Built, debugged, deployed.
+          </p>
+          <p class="proj-status live">● Deployed · Live</p>
+        </div>
+        <span class="proj-arrow">↗</span>
+      </div>
+
+      <div class="project reveal">
+        <div>
+          <p class="proj-meta">Strategy · Operations · Family Enterprise</p>
+          <p class="proj-name">Shriman Electricals — Distribution Strategy</p>
+          <p class="proj-desc">
+            My family has run a multi-generational B2B electrical distribution
+            business in Mumbai. Since 2023 I've been directly involved —
+            analysing SKU-level performance, identifying underperforming segments,
+            mapping supplier dynamics. This is the problem source. Not the pitch.
+          </p>
+          <p class="proj-status ongoing">● Ongoing</p>
+        </div>
+        <span class="proj-arrow"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOW -->
+  <section id="now">
+    <div class="section-header reveal">
+      <span class="section-label">Now</span>
+      <span class="section-index">02</span>
+    </div>
+
+    <div class="now-table reveal">
+      <div class="now-row">
+        <div class="now-key">Studying</div>
+        <div class="now-val">Y1 CS @ BITS Pilani, Goa. EEE, Maths, Programming.</div>
+      </div>
+      <div class="now-row">
+        <div class="now-key">Building</div>
+        <div class="now-val">NerveSight — formalising the concept, building the pitch, finding the first design partner among real distributors.</div>
+      </div>
+      <div class="now-row">
+        <div class="now-key">Consulting</div>
+        <div class="now-val">Junior Associate at <a href="https://180dc.org" target="_blank" rel="noopener">180 Degrees Consulting</a>, BITS Goa.</div>
+      </div>
+      <div class="now-row">
+        <div class="now-key">Applying</div>
+        <div class="now-val">Antler India · Entrepreneurs First Bangalore.</div>
+      </div>
+      <div class="now-row">
+        <div class="now-key">Learning</div>
+        <div class="now-val">Financial modelling. French. The gap between strategy and execution.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BACKGROUND -->
+  <section id="background">
+    <div class="section-header reveal">
+      <span class="section-label">Background</span>
+      <span class="section-index">03</span>
+    </div>
+
+    <div class="bio reveal">
+      <p>
+        I'm 18, from Mumbai. My father built a B2B electrical distribution business from scratch —
+        <strong>Shriman Electricals</strong> — and I grew up watching how traditional trade actually works:
+        the margins, the supplier relationships, the chaos of inventory that never quite maps to demand.
+        That proximity to a real, unglamorous business is the lens through which I think about technology.
+      </p>
+      <p>
+        I started early. GPU mining at 13. A Chia pivot when the economics shifted.
+        Live capital trading across Indian equities, built decision frameworks around
+        RSI, EMA, and macro signals. Eventually wrote API-based market monitoring
+        systems on Zerodha and Groww. None of it was academic. All of it had skin in the game.
+      </p>
+      <p>
+        I'm now studying Computer Science at <strong>BITS Pilani, Goa</strong> — on a dual-degree track
+        to <strong>CentraleSupélec Paris</strong> for years three and four, where I'll specialise in AI.
+        The path is deliberate: technical depth in Europe, market intuition built at home, and a thesis
+        about the 63 million Indian distributors still waiting for their infrastructure moment.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header reveal">
+      <span class="section-label">Contact</span>
+      <span class="section-index">04</span>
+    </div>
+
+    <p class="contact-intro reveal">
+      If you're building something <em>serious,</em><br>
+      or backing someone who is —
+    </p>
+
+    <div class="reveal">
+      <a href="mailto:shriman181@gmail.com" class="contact-item">
+        <span class="contact-label">Email</span>
+        <span class="contact-value">shriman181@gmail.com</span>
+        <span class="contact-arrow">↗</span>
+      </a>
+      <a href="https://linkedin.com/in/shriman-maheshwari" target="_blank" rel="noopener" class="contact-item">
+        <span class="contact-label">LinkedIn</span>
+        <span class="contact-value">shriman-maheshwari</span>
+        <span class="contact-arrow">↗</span>
+      </a>
+      <a href="https://github.com/shriman" target="_blank" rel="noopener" class="contact-item">
+        <span class="contact-label">GitHub</span>
+        <span class="contact-value">github.com/shriman</span>
+        <span class="contact-arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="reveal">
+    <span class="footer-l">Shriman Maheshwari · Mumbai / Goa</span>
+    <span class="footer-r">shriman.me</span>
+  </footer>
+
+</div>
+
+<script>
+  const navWrap = document.getElementById('nav-wrap');
+  window.addEventListener('scroll', () => {
+    navWrap.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.07, rootMargin: '0px 0px -32px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
