@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CredSwap — The AI & Cloud Credits Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #0A1628;
+    --emerald: #10B981;
+    --emerald-light: #34D399;
+    --teal: #0D9488;
+    --white: #ffffff;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-400: #9CA3AF;
+    --gray-600: #4B5563;
+    --gray-800: #1F2937;
+    --text: #111827;
+    --text-muted: #6B7280;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.05);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--white);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--gray-100);
+    padding: 0 40px; height: 68px;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: box-shadow 0.3s;
+  }
+  nav.scrolled { box-shadow: var(--shadow-sm); }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+    font-family: 'Fraunces', serif;
+    font-weight: 700; font-size: 1.45rem;
+    color: var(--navy); letter-spacing: -0.3px;
+  }
+  .nav-logo .logo-icon {
+    width: 34px; height: 34px;
+    background: linear-gradient(135deg, var(--emerald), var(--teal));
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-logo .logo-icon svg { width: 18px; height: 18px; fill: white; }
+
+  .nav-pill {
+    display: flex; align-items: center;
+    background: var(--gray-100); border-radius: 50px; padding: 4px; gap: 2px;
+  }
+  .nav-pill button {
+    border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem; font-weight: 500;
+    padding: 8px 20px; border-radius: 46px;
+    transition: all 0.2s; color: var(--gray-600); background: transparent;
+  }
+  .nav-pill button.active { background: var(--navy); color: white; box-shadow: var(--shadow-sm); }
+
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-links a { text-decoration: none; color: var(--gray-600); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--navy); }
+  .nav-cta {
+    background: var(--emerald); color: white !important;
+    padding: 9px 20px; border-radius: 50px;
+    font-weight: 600 !important; font-size: 0.875rem !important;
+    transition: background 0.2s, transform 0.15s !important;
+  }
+  .nav-cta:hover { background: var(--teal) !important; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 120px 24px 0;
+    position: relative; overflow: hidden; background: var(--white);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--gray-100) 1px, transparent 1px),
+      linear-gradient(90deg, var(--gray-100) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%);
+    opacity: 0.6;
+  }
+  .hero-glow {
+    position: absolute; width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(16,185,129,0.10) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%, -55%); pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: white; border: 1px solid var(--gray-200); border-radius: 50px;
+    padding: 8px 18px 8px 10px;
+    font-size: 0.82rem; font-weight: 500; color: var(--gray-600);
+    margin-bottom: 32px; box-shadow: var(--shadow-sm);
+    position: relative; z-index: 1;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-badge .badge-pill {
+    background: var(--emerald); color: white; border-radius: 50px; padding: 3px 12px;
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.3px;
+  }
+  .hero-headline {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(3.2rem, 6.5vw, 6.2rem);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -1px;
+    text-align: center; color: var(--navy);
+    position: relative; z-index: 1;
+    animation: fadeUp 0.6s ease 0.1s both;
+    max-width: 860px;
+  }
+  .hero-headline .accent { color: var(--emerald); font-style: italic; }
+  .hero-sub {
+    margin-top: 24px;
+    font-size: 1.1rem; color: var(--text-muted);
+    text-align: center; max-width: 520px; line-height: 1.65;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+  .hero-actions {
+    display: flex; gap: 14px; margin-top: 40px;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.6s ease 0.3s both;
+  }
+  .btn-primary {
+    background: var(--navy); color: white; border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600;
+    padding: 14px 32px; border-radius: 50px; transition: all 0.2s;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: #162540; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(10,22,40,0.25); }
+  .btn-secondary {
+    background: white; color: var(--navy);
+    border: 1.5px solid var(--gray-200); cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500;
+    padding: 14px 28px; border-radius: 50px; transition: all 0.2s;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-secondary:hover { border-color: var(--emerald); color: var(--emerald); transform: translateY(-1px); }
+
+  /* Ticker */
+  .ticker-wrap {
+    width: 100%; overflow: hidden; margin-top: 72px;
+    background: var(--navy); padding: 14px 0;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.6s ease 0.45s both;
+  }
+  .ticker-track { display: flex; animation: ticker 32s linear infinite; width: max-content; }
+  .ticker-item {
+    display: flex; align-items: center; gap: 10px; padding: 0 28px;
+    font-size: 0.83rem; font-weight: 500; color: rgba(255,255,255,0.75); white-space: nowrap;
+  }
+  .ticker-dot { width: 7px; height: 7px; background: var(--emerald); border-radius: 50%; flex-shrink: 0; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── TRUST ── */
+  .trust-section { padding: 80px 40px; background: var(--gray-50); border-bottom: 1px solid var(--gray-100); }
+  .trust-inner { max-width: 960px; margin: 0 auto; }
+  .trust-label {
+    text-align: center; font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 36px;
+  }
+  .trust-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--gray-200); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm);
+  }
+  .trust-card { background: white; padding: 36px 32px; display: flex; flex-direction: column; gap: 8px; }
+  .trust-icon { font-size: 1.8rem; margin-bottom: 4px; }
+  .trust-title { font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 700; color: var(--navy); line-height: 1.3; }
+  .trust-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── SHARED SECTION LAYOUT ── */
+  .section { padding: 100px 40px; }
+  .section-inner { max-width: 1120px; margin: 0 auto; }
+  .section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--emerald); margin-bottom: 12px; }
+  .section-title { font-family: 'Fraunces', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 800; letter-spacing: -0.3px; color: var(--navy); line-height: 1.15; }
+  .section-subtitle { font-size: 1rem; color: var(--text-muted); margin-top: 12px; max-width: 480px; line-height: 1.6; }
+
+  /* ── PLANS ── */
+  .plans-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 44px; }
+  .plans-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; }
+  .plan-card {
+    background: white; border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius); padding: 32px;
+    transition: all 0.25s; cursor: pointer; position: relative; overflow: hidden;
+  }
+  .plan-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--emerald), var(--teal)); opacity: 0; transition: opacity 0.25s;
+  }
+  .plan-card:hover { border-color: var(--emerald); transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .plan-card:hover::before { opacity: 1; }
+  .plan-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+  .plan-logo {
+    width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; background: var(--gray-50); border: 1px solid var(--gray-100);
+  }
+  .plan-badge { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.5px; padding: 4px 12px; border-radius: 50px; background: rgba(16,185,129,0.10); color: var(--emerald); }
+  .plan-badge.hot { background: rgba(245,158,11,0.10); color: #D97706; }
+  .plan-row { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--gray-100); font-size: 0.875rem; }
+  .plan-row:last-of-type { border-bottom: none; }
+  .plan-row-label { color: var(--text-muted); }
+  .plan-row-value { font-weight: 600; color: var(--navy); }
+  .plan-cta {
+    margin-top: 24px; width: 100%; background: var(--navy); color: white;
+    border: none; border-radius: 50px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 600;
+    padding: 13px 24px; transition: all 0.2s;
+  }
+  .plan-cta:hover { background: var(--emerald); }
+
+  /* Payment Strip */
+  .payment-strip {
+    margin-top: 40px; background: var(--gray-50);
+    border: 1.5px solid var(--gray-200); border-radius: var(--radius);
+    padding: 28px 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+  }
+  .payment-item h4 {
+    font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 700;
+    color: var(--navy); margin-bottom: 8px;
+  }
+  .payment-item p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.55; }
+  .pay-tag {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(16,185,129,0.10); color: var(--teal);
+    border-radius: 50px; padding: 3px 10px; font-size: 0.75rem; font-weight: 600;
+    margin-top: 8px; margin-right: 6px;
+  }
+  .pay-tag.crypto { background: rgba(139,92,246,0.10); color: #7C3AED; }
+
+  /* ── HOW IT WORKS ── */
+  .how-section { padding: 100px 40px; background: var(--gray-50); }
+  .how-inner { max-width: 1120px; margin: 0 auto; }
+  .how-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-top: 60px; }
+  .steps-list { display: flex; flex-direction: column; }
+  .step { display: flex; gap: 20px; padding: 28px 0; border-bottom: 1px solid var(--gray-200); cursor: pointer; transition: all 0.2s; }
+  .step:last-child { border-bottom: none; }
+  .step:hover .step-num { background: var(--emerald); color: white; }
+  .step-num {
+    width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%;
+    background: var(--navy); color: white;
+    font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; transition: background 0.2s;
+  }
+  .step-content h3 { font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .step-content p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; }
+  .how-visual { position: sticky; top: 100px; }
+  .visual-card { background: var(--navy); border-radius: 20px; padding: 36px; color: white; box-shadow: var(--shadow-lg); }
+  .visual-card h3 { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+  .visual-card p { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 28px; line-height: 1.5; }
+  .visual-guarantee { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10); border-radius: 12px; padding: 20px; font-size: 0.85rem; color: rgba(255,255,255,0.75); line-height: 1.6; }
+  .visual-guarantee strong { color: var(--emerald); }
+  .save-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); border-radius: 50px; padding: 6px 14px; margin-bottom: 20px; font-size: 0.78rem; font-weight: 600; color: var(--emerald); }
+
+  /* ── SECURITY ── */
+  .security-section { padding: 100px 40px; }
+  .security-inner { max-width: 1000px; margin: 0 auto; }
+  .security-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 60px; }
+  .security-left { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px; }
+  .shield-icon {
+    width: 120px; height: 120px; background: linear-gradient(135deg, var(--gray-100), var(--gray-50));
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 0 16px rgba(16,185,129,0.06), 0 0 0 32px rgba(16,185,129,0.03);
+  }
+  .shield-icon svg { width: 52px; height: 52px; }
+  .security-left h3 { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); }
+  .security-left p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
+  .security-left .guarantee-text { color: var(--emerald); font-weight: 600; }
+  .security-checklist { display: flex; flex-direction: column; }
+  .check-item { display: flex; align-items: center; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--gray-100); font-size: 0.9rem; color: var(--gray-800); }
+  .check-item:last-child { border-bottom: none; }
+  .check-icon { width: 28px; height: 28px; flex-shrink: 0; background: rgba(16,185,129,0.10); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--emerald); font-size: 0.8rem; }
+
+  /* ── CONTACT SECTION ── */
+  .contact-section { padding: 100px 40px; background: var(--gray-50); }
+  .contact-inner { max-width: 960px; margin: 0 auto; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 56px; }
+  .contact-info-card { background: white; border-radius: var(--radius); border: 1.5px solid var(--gray-200); padding: 36px; display: flex; flex-direction: column; gap: 28px; }
+  .contact-item { display: flex; gap: 16px; align-items: flex-start; }
+  .contact-item-icon { width: 44px; height: 44px; flex-shrink: 0; background: rgba(16,185,129,0.10); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+  .contact-item-text h4 { font-family: 'Fraunces', serif; font-size: 0.95rem; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .contact-item-text a, .contact-item-text p { font-size: 0.875rem; color: var(--text-muted); text-decoration: none; display: block; line-height: 1.7; transition: color 0.2s; }
+  .contact-item-text a:hover { color: var(--emerald); }
+  .contact-form-card { background: white; border-radius: var(--radius); border: 1.5px solid var(--gray-200); padding: 36px; }
+  .contact-form-card h3 { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .contact-form-card > p { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 24px; }
+  .form-group { display: flex; flex-direction: column; gap: 12px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 12px 16px; border-radius: var(--radius-sm);
+    border: 1.5px solid var(--gray-200);
+    font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: var(--text);
+    outline: none; transition: border-color 0.2s; background: white;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--emerald); }
+  .form-group textarea { resize: vertical; min-height: 90px; }
+
+  /* ── FAQ ── */
+  .faq-section { padding: 100px 40px; }
+  .faq-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+  .faq-inner .section-subtitle { margin: 0 auto 52px; }
+  .faq-list { text-align: left; display: flex; flex-direction: column; gap: 10px; }
+  .faq-item { background: white; border-radius: var(--radius-sm); border: 1.5px solid var(--gray-200); overflow: hidden; transition: border-color 0.2s; }
+  .faq-item.open { border-color: var(--emerald); }
+  .faq-q { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; cursor: pointer; font-size: 0.95rem; font-weight: 500; color: var(--navy); user-select: none; }
+  .faq-chevron { width: 28px; height: 28px; border-radius: 50%; background: var(--gray-100); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s; }
+  .faq-chevron svg { width: 14px; height: 14px; transition: transform 0.3s; }
+  .faq-item.open .faq-chevron { background: var(--emerald); }
+  .faq-item.open .faq-chevron svg { transform: rotate(180deg); stroke: white; }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; padding: 0 24px; }
+  .faq-item.open .faq-a { max-height: 220px; padding: 0 24px 20px; }
+
+  /* ── SELL ── */
+  .sell-section { padding: 100px 40px; }
+  .sell-inner { max-width: 900px; margin: 0 auto; }
+  .sell-card {
+    background: var(--navy); border-radius: 24px; padding: 60px;
+    display: flex; align-items: center; justify-content: space-between; gap: 40px;
+    position: relative; overflow: hidden;
+  }
+  .sell-card::before { content: ''; position: absolute; top: -60px; right: -60px; width: 260px; height: 260px; background: radial-gradient(circle, rgba(16,185,129,0.2) 0%, transparent 70%); border-radius: 50%; }
+  .sell-card-text h2 { font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 800; color: white; letter-spacing: -0.3px; line-height: 1.2; margin-bottom: 12px; }
+  .sell-card-text h2 .accent { color: var(--emerald); font-style: italic; }
+  .sell-card-text p { font-size: 0.9rem; color: rgba(255,255,255,0.6); max-width: 380px; line-height: 1.65; }
+  .sell-card-action { flex-shrink: 0; }
+  .btn-white { background: white; color: var(--navy); border: none; border-radius: 50px; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 700; padding: 14px 30px; transition: all 0.2s; text-decoration: none; display: inline-block; }
+  .btn-white:hover { background: var(--emerald); color: white; transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer { background: var(--navy); color: rgba(255,255,255,0.6); padding: 60px 40px 36px; }
+  .footer-inner { max-width: 1120px; margin: 0 auto; }
+  .footer-top { display: flex; justify-content: space-between; gap: 60px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .footer-brand { max-width: 280px; }
+  .footer-logo { display: flex; align-items: center; gap: 10px; font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.3rem; color: white; margin-bottom: 14px; text-decoration: none; }
+  .footer-logo .logo-icon { width: 30px; height: 30px; background: linear-gradient(135deg, var(--emerald), var(--teal)); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .footer-logo .logo-icon svg { width: 15px; height: 15px; fill: white; }
+  .footer-brand p { font-size: 0.83rem; line-height: 1.65; }
+  .footer-links h4 { color: white; font-weight: 600; font-size: 0.85rem; margin-bottom: 16px; }
+  .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-links ul a, .footer-links .fc a { text-decoration: none; color: rgba(255,255,255,0.5); font-size: 0.83rem; transition: color 0.2s; }
+  .footer-links ul a:hover, .footer-links .fc a:hover { color: var(--emerald); }
+  .footer-links .fc { display: flex; flex-direction: column; gap: 10px; }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 28px; font-size: 0.8rem; }
+
+  /* ── MODAL ── */
+  .modal-overlay { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(10,22,40,0.55); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: white; border-radius: 20px; padding: 40px; width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); position: relative; animation: fadeUp 0.3s ease both; }
+  .modal-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 50%; background: var(--gray-100); border: none; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; color: var(--gray-600); transition: background 0.2s; }
+  .modal-close:hover { background: var(--gray-200); }
+  .modal h3 { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+  .modal p { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 24px; }
+  .modal-form { display: flex; flex-direction: column; gap: 14px; }
+  .modal-form input, .modal-form select, .modal-form textarea { width: 100%; padding: 12px 16px; border-radius: var(--radius-sm); border: 1.5px solid var(--gray-200); font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: var(--text); outline: none; transition: border-color 0.2s; }
+  .modal-form input:focus, .modal-form select:focus, .modal-form textarea:focus { border-color: var(--emerald); }
+  .modal-form textarea { resize: vertical; min-height: 80px; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero-actions { flex-direction: column; align-items: center; }
+    .trust-grid, .plans-grid, .contact-grid, .payment-strip { grid-template-columns: 1fr; }
+    .how-layout { grid-template-columns: 1fr; }
+    .how-visual { display: none; }
+    .security-layout { grid-template-columns: 1fr; }
+    .security-left { display: none; }
+    .sell-card { flex-direction: column; text-align: center; padding: 40px 28px; }
+    .footer-top { flex-direction: column; gap: 32px; }
+    .plans-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .section, .how-section, .security-section, .faq-section, .sell-section, .contact-section { padding: 72px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    CredSwap
+  </a>
+  <div class="nav-pill">
+    <button class="active" onclick="setMode('buy',this)">Buy Credits</button>
+    <button onclick="setMode('sell',this)">Sell Credits</button>
+  </div>
+  <div class="nav-links">
+    <a href="#how">How it Works</a>
+    <a href="#security">Guarantee</a>
+    <a href="#contact">Contact</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact" class="nav-cta">Get Started</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-badge">
+    <span class="badge-pill">VERIFIED</span>
+    Safe transfers &amp; anonymous exchange
+  </div>
+  <h1 class="hero-headline">
+    Save Up To <span class="accent">60%</span><br>On AI &amp; Cloud Credits
+  </h1>
+  <p class="hero-sub">
+    Buy verified Anthropic Claude, OpenAI, AWS, and Azure credits from trusted sellers — at a fraction of retail price.
+  </p>
+  <div class="hero-actions">
+    <a href="#plans" class="btn-primary">
+      Start Buying Credits
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <a href="#how" class="btn-secondary">See How It Works</a>
+  </div>
+  <div class="ticker-wrap">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="trust-section">
+  <div class="trust-inner">
+    <div class="trust-label">Why buyers choose CredSwap</div>
+    <div class="trust-grid">
+      <div class="trust-card reveal">
+        <div class="trust-icon">🔒</div>
+        <div class="trust-title">Escrow-Style Protection</div>
+        <div class="trust-desc">Credits are fully verified before any payment is released. Test with a read-only API key before committing.</div>
+      </div>
+      <div class="trust-card reveal">
+        <div class="trust-icon">⚡</div>
+        <div class="trust-title">Transfer Within 24 Hours</div>
+        <div class="trust-desc">From inquiry to live credits in your account — our streamlined process gets you running fast.</div>
+      </div>
+      <div class="trust-card reveal">
+        <div class="trust-icon">🕵️</div>
+        <div class="trust-title">Anonymous & Confidential</div>
+        <div class="trust-desc">Mutual NDAs for every deal. Buyer and seller identities are never disclosed to each other.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section class="section" id="plans">
+  <div class="section-inner">
+    <div class="plans-header">
+      <div>
+        <div class="section-label">Credit Plans</div>
+        <h2 class="section-title">Explore Available Credits</h2>
+        <p class="section-subtitle">All accounts are verified, audited, and transferred securely within 24 hours of payment.</p>
+      </div>
+      <a href="#contact" class="btn-primary" style="white-space:nowrap;flex-shrink:0">Inquire About Plans</a>
+    </div>
+    <div class="plans-grid">
+      <div class="plan-card reveal">
+        <div class="plan-card-header">
+          <div class="plan-logo">🤖</div>
+          <span class="plan-badge hot">🔥 Limited Stock</span>
+        </div>
+        <div class="plan-row"><span class="plan-row-label">Product</span><span class="plan-row-value">Anthropic / Claude API</span></div>
+        <div class="plan-row"><span class="plan-row-label">Validity</span><span class="plan-row-value">1 year</span></div>
+        <div class="plan-row"><span class="plan-row-label">Credits</span><span class="plan-row-value">$1K / $5K / $10K</span></div>
+        <div class="plan-row"><span class="plan-row-label">Rate Limits</span><span class="plan-row-value">Enterprise Tier</span></div>
+        <div class="plan-row"><span class="plan-row-label">Savings</span><span class="plan-row-value" style="color:var(--emerald)">Up to 55% off retail</span></div>
+        <button class="plan-cta" onclick="openModalFor('Anthropic Claude API')">Inquire Now →</button>
+      </div>
+      <div class="plan-card reveal">
+        <div class="plan-card-header">
+          <div class="plan-logo">⚡</div>
+          <span class="plan-badge">Available</span>
+        </div>
+        <div class="plan-row"><span class="plan-row-label">Product</span><span class="plan-row-value">OpenAI API Credits</span></div>
+        <div class="plan-row"><span class="plan-row-label">Validity</span><span class="plan-row-value">1 year</span></div>
+        <div class="plan-row"><span class="plan-row-label">Credits</span><span class="plan-row-value">$2.5K / $5K / $25K</span></div>
+        <div class="plan-row"><span class="plan-row-label">Rate Limits</span><span class="plan-row-value">Tier 5</span></div>
+        <div class="plan-row"><span class="plan-row-label">Savings</span><span class="plan-row-value" style="color:var(--emerald)">Up to 50% off retail</span></div>
+        <button class="plan-cta" onclick="openModalFor('OpenAI API')">Inquire Now →</button>
+      </div>
+      <div class="plan-card reveal">
+        <div class="plan-card-header">
+          <div class="plan-logo">☁️</div>
+          <span class="plan-badge">Best Value</span>
+        </div>
+        <div class="plan-row"><span class="plan-row-label">Product</span><span class="plan-row-value">AWS Credits</span></div>
+        <div class="plan-row"><span class="plan-row-label">Validity</span><span class="plan-row-value">2 years</span></div>
+        <div class="plan-row"><span class="plan-row-label">Credits</span><span class="plan-row-value">$5K / $10K / $100K</span></div>
+        <div class="plan-row"><span class="plan-row-label">Support</span><span class="plan-row-value">Enterprise</span></div>
+        <div class="plan-row"><span class="plan-row-label">Savings</span><span class="plan-row-value" style="color:var(--emerald)">Up to 60% off retail</span></div>
+        <button class="plan-cta" onclick="openModalFor('AWS Credits')">Inquire Now →</button>
+      </div>
+      <div class="plan-card reveal">
+        <div class="plan-card-header">
+          <div class="plan-logo">🔷</div>
+          <span class="plan-badge">Available</span>
+        </div>
+        <div class="plan-row"><span class="plan-row-label">Product</span><span class="plan-row-value">Azure OpenAI Credits</span></div>
+        <div class="plan-row"><span class="plan-row-label">Validity</span><span class="plan-row-value">1 year</span></div>
+        <div class="plan-row"><span class="plan-row-label">Credits</span><span class="plan-row-value">$5K / $25K / $100K</span></div>
+        <div class="plan-row"><span class="plan-row-label">Support</span><span class="plan-row-value">Enterprise</span></div>
+        <div class="plan-row"><span class="plan-row-label">Savings</span><span class="plan-row-value" style="color:var(--emerald)">Up to 55% off retail</span></div>
+        <button class="plan-cta" onclick="openModalFor('Azure OpenAI Credits')">Inquire Now →</button>
+      </div>
+    </div>
+
+    <!-- PAYMENT STRIP -->
+    <div class="payment-strip reveal">
+      <div class="payment-item">
+        <h4>🏦 Buying Credits — Payment</h4>
+        <p>Secure, traceable, and instant payments accepted for all credit purchases.</p>
+        <div style="margin-top:10px">
+          <span class="pay-tag">✓ UPI</span>
+          <span class="pay-tag">✓ IMPS / NEFT / RTGS</span>
+          <span class="pay-tag">✓ Direct Bank Transfer</span>
+        </div>
+      </div>
+      <div class="payment-item">
+        <h4>₿ Selling Credits — Payment</h4>
+        <p>Sellers receive payment in cryptocurrency for full anonymity and fast settlement.</p>
+        <div style="margin-top:10px">
+          <span class="pay-tag crypto">✓ Bitcoin (BTC)</span>
+          <span class="pay-tag crypto">✓ USDT / Stablecoins</span>
+          <span class="pay-tag crypto">✓ ETH &amp; others</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="how-inner">
+    <div class="section-label">Process</div>
+    <h2 class="section-title">Get your credits in hours,<br><em style="color:var(--emerald)">not days</em></h2>
+    <div class="how-layout">
+      <div class="steps-list">
+        <div class="step reveal"><div class="step-num">01</div><div class="step-content"><h3>Choose Provider &amp; Amount</h3><p>Tell us which platform you need — Anthropic, OpenAI, AWS, or Azure — and your required credit amount.</p></div></div>
+        <div class="step reveal"><div class="step-num">02</div><div class="step-content"><h3>Match &amp; Verify Inventory</h3><p>We match you with verified inventory and share screenshots. Optional read-only API key for pre-payment verification.</p></div></div>
+        <div class="step reveal"><div class="step-num">03</div><div class="step-content"><h3>Mutual NDA &amp; Invoice</h3><p>Both parties sign a mutual NDA keeping identities confidential. Invoice and entity details exchanged securely.</p></div></div>
+        <div class="step reveal"><div class="step-num">04</div><div class="step-content"><h3>Secure Payment</h3><p>Buyers pay via UPI or bank transfer. Funds are held securely until transfer is confirmed on your end.</p></div></div>
+        <div class="step reveal"><div class="step-num">05</div><div class="step-content"><h3>Credential Transfer</h3><p>Account ownership or root credentials transferred to you. You reset password and 2FA immediately.</p></div></div>
+        <div class="step reveal"><div class="step-num">06</div><div class="step-content"><h3>Usage Confirmed</h3><p>Confirm credits are live within 24 hours. Our team is on standby to resolve any issue instantly.</p></div></div>
+      </div>
+      <div class="how-visual reveal">
+        <div class="visual-card">
+          <div class="save-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            No-Risk Guarantee
+          </div>
+          <h3>Safety &amp; Guarantee</h3>
+          <p>If access becomes unavailable within the validity period, CredSwap will replace credits or refund the unused balance after verification.</p>
+          <div class="visual-guarantee">
+            <strong>✓ Verified sellers only</strong><br><br>
+            We audit ownership &amp; account history before any listing. Transfer via ownership change or root credentials.<br><br>
+            <strong>Mutual NDA — identities remain confidential.</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section class="security-section" id="security">
+  <div class="security-inner">
+    <div class="section-label">Trust &amp; Safety</div>
+    <h2 class="section-title">Security, compliance<br>&amp; guarantees</h2>
+    <div class="security-layout">
+      <div class="security-left reveal">
+        <div class="shield-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="1.5">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Safety and Guarantee</h3>
+        <p>If access becomes unavailable within the validity period, <span class="guarantee-text">CredSwap will replace credits or refund the unused balance</span> after verification.</p>
+      </div>
+      <div class="security-checklist">
+        <div class="check-item reveal"><div class="check-icon">✓</div>We onboard only verified companies and individuals</div>
+        <div class="check-item reveal"><div class="check-icon">✓</div>We audit ownership &amp; account history before listing</div>
+        <div class="check-item reveal"><div class="check-icon">✓</div>Transfer via ownership change or root credentials</div>
+        <div class="check-item reveal"><div class="check-icon">✓</div>Mutual NDA available — identities remain confidential</div>
+        <div class="check-item reveal"><div class="check-icon">✓</div>24×7 support throughout every transaction</div>
+        <div class="check-item reveal"><div class="check-icon">✓</div>Escrow-style payment protection for all buyers</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-inner">
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">Contact Us</h2>
+    <p class="section-subtitle">Reach out directly or send an inquiry — we respond within a few hours.</p>
+    <div class="contact-grid">
+      <div class="contact-info-card reveal">
+        <div class="contact-item">
+          <div class="contact-item-icon">✉️</div>
+          <div class="contact-item-text">
+            <h4>Email Us</h4>
+            <a href="mailto:shriman1181@gmail.com">shriman1181@gmail.com</a>
+            <a href="mailto:shrimxn@gmail.com">shrimxn@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📞</div>
+          <div class="contact-item-text">
+            <h4>Call / WhatsApp</h4>
+            <a href="tel:+917718277181">+91 77182 77181</a>
+            <p>Available Mon–Sat, 10am–8pm IST</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🏦</div>
+          <div class="contact-item-text">
+            <h4>Buying Credits — Payment</h4>
+            <p>UPI &amp; Direct Bank Transfer (IMPS / NEFT / RTGS)</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">₿</div>
+          <div class="contact-item-text">
+            <h4>Selling Credits — Payment</h4>
+            <p>Cryptocurrency accepted (BTC, USDT, ETH &amp; other major coins)</p>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form-card reveal">
+        <h3>Send an Inquiry</h3>
+        <p>Tell us what you need and we'll get back to you shortly.</p>
+        <div class="form-group">
+          <input type="text" id="cf-name" placeholder="Your name / company" />
+          <input type="email" id="cf-email" placeholder="Email address" />
+          <select id="cf-type">
+            <option value="" disabled selected>I want to…</option>
+            <option>Buy Anthropic Claude API credits</option>
+            <option>Buy OpenAI API credits</option>
+            <option>Buy AWS credits</option>
+            <option>Buy Azure OpenAI credits</option>
+            <option>Sell my surplus credits</option>
+            <option>General enquiry</option>
+          </select>
+          <input type="text" id="cf-amount" placeholder="Credit amount (e.g. $5,000)" />
+          <textarea id="cf-msg" placeholder="Any additional details or questions…"></textarea>
+          <button class="btn-primary" onclick="submitContactForm()" style="justify-content:center;border-radius:var(--radius-sm)">
+            Send Inquiry
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="faq-inner">
+    <div class="section-label" style="text-align:center">FAQ</div>
+    <h2 class="section-title">Your Questions. Answered.</h2>
+    <p class="section-subtitle">Everything you need to know about buying and selling on CredSwap.</p>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What is CredSwap?<div class="faq-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div></div>
+        <div class="faq-a">CredSwap is a peer-to-peer marketplace for AI and cloud credits. We connect startups and developers who need credits at scale with sellers who have surplus — enabling significant savings vs. retail pricing from Anthropic, OpenAI, AWS, and Azure.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Which credits are available and how much can I save?<div class="faq-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div></div>
+        <div class="faq-a">We currently offer Anthropic Claude API, OpenAI API, AWS, and Azure OpenAI credits. Buyers typically save 40–60% vs. retail pricing depending on the provider and volume. Contact us for current availability and exact pricing.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Will rate limits or performance change after buying?<div class="faq-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div></div>
+        <div class="faq-a">No. Credits are on real, verified accounts with the same rate limits as any direct account at that tier. OpenAI accounts are Tier 5; Anthropic and AWS accounts come with enterprise rate limits.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How do I pay when buying? What about selling?<div class="faq-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div></div>
+        <div class="faq-a">Buyers pay via UPI or direct bank transfer (IMPS/NEFT/RTGS) — simple and traceable. Sellers receive payment in cryptocurrency (BTC, USDT, ETH) for full anonymity and fast cross-border settlement.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Can I verify the account before paying?<div class="faq-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div></div>
+        <div class="faq-a">Yes. We provide balance screenshots and can optionally share a read-only API key so you can run a test call and confirm the credit balance and rate limits before any money changes hands.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Will my identity be shared?<div class="faq-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div></div>
+        <div class="faq-a">No. Both parties sign a mutual NDA and identities remain confidential throughout. CredSwap acts as the intermediary. Only basic entity and tax details are shared for invoicing purposes.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What if credits become inaccessible?<div class="faq-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div></div>
+        <div class="faq-a">If access becomes unavailable within the stated validity period, CredSwap will replace the credits from another verified seller, or refund the unused balance after verification of the issue.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Where do the credits come from?<div class="faq-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="#4B5563" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div></div>
+        <div class="faq-a">Credits come from verified sellers — typically developers, early-stage startups, or accelerator program recipients with surplus credits they don't intend to use. Every seller is vetted by CredSwap before listing.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SELL CTA -->
+<section class="sell-section">
+  <div class="sell-inner">
+    <div class="sell-card reveal">
+      <div class="sell-card-text">
+        <h2>Have surplus credits?<br><span class="accent">Turn them into cash.</span></h2>
+        <p>List your unused Anthropic, OpenAI, AWS, or Azure credits on CredSwap. Get paid in crypto — fast, anonymous, and secure.</p>
+      </div>
+      <div class="sell-card-action">
+        <a href="#contact" class="btn-white">Start Selling →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="footer-logo">
+          <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+          CredSwap
+        </a>
+        <p>The trusted marketplace for AI and cloud infrastructure credits. Save up to 60% on Anthropic, OpenAI, AWS, and Azure.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="#plans">Buy Credits</a></li>
+          <li><a href="#contact">Sell Credits</a></li>
+          <li><a href="#how">How It Works</a></li>
+          <li><a href="#security">Guarantee</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Credits</h4>
+        <ul>
+          <li><a href="#plans">Anthropic Claude</a></li>
+          <li><a href="#plans">OpenAI API</a></li>
+          <li><a href="#plans">AWS Credits</a></li>
+          <li><a href="#plans">Azure OpenAI</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Contact</h4>
+        <div class="fc">
+          <a href="mailto:shriman1181@gmail.com">shriman1181@gmail.com</a>
+          <a href="mailto:shrimxn@gmail.com">shrimxn@gmail.com</a>
+          <a href="tel:+917718277181">+91 77182 77181</a>
+          <a href="#faq">FAQ</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 CredSwap. All rights reserved.</span>
+      <span>Built for the AI-native era.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="contactModal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Get in Touch</h3>
+    <p>Tell us what you need and we'll respond within a few hours.</p>
+    <div class="modal-form">
+      <input type="text" id="modal-name" placeholder="Your name / company" />
+      <input type="email" id="modal-email" placeholder="Email address" />
+      <select id="modal-product">
+        <option value="" disabled selected>Select credit type</option>
+        <option>Anthropic Claude API</option>
+        <option>OpenAI API</option>
+        <option>AWS Credits</option>
+        <option>Azure OpenAI Credits</option>
+        <option>I want to sell credits</option>
+      </select>
+      <input type="text" id="modal-amount" placeholder="Credit amount needed (e.g. $5,000)" />
+      <textarea id="modal-msg" placeholder="Any additional details..."></textarea>
+      <button class="btn-primary" onclick="submitModal()" style="justify-content:center;border-radius:var(--radius-sm)">
+        Send Inquiry
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+function setMode(mode, btn) {
+  document.querySelectorAll('.nav-pill button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const target = mode === 'sell' ? '.sell-section' : '#plans';
+  document.querySelector(target).scrollIntoView({ behavior: 'smooth' });
+}
+
+// Ticker
+const tickerItems = [
+  '24×7 Support', 'Verified Vendors', 'Transfer ≤ 24h Post-Payment',
+  'Escrow-Style Protection', 'Ownership Auditing', 'Mutual NDA Available',
+  'Anonymous Exchange', 'Enterprise Rate Limits', 'Crypto Payments for Sellers', 'UPI & Bank Transfer for Buyers'
+];
+const track = document.getElementById('tickerTrack');
+[...tickerItems,...tickerItems,...tickerItems,...tickerItems].forEach(item => {
+  const el = document.createElement('div');
+  el.className = 'ticker-item';
+  el.innerHTML = `<span class="ticker-dot"></span>${item}`;
+  track.appendChild(el);
+});
+
+// Reveal
+const revealEls = Array.from(document.querySelectorAll('.reveal'));
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), (revealEls.indexOf(e.target) % 4) * 80);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+revealEls.forEach(el => obs.observe(el));
+
+// FAQ
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// Modal
+function openModal(e) { if (e) e.preventDefault(); document.getElementById('contactModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function openModalFor(product) {
+  openModal();
+  setTimeout(() => {
+    const sel = document.getElementById('modal-product');
+    for (let opt of sel.options) { if (opt.value === product) { sel.value = product; break; } }
+  }, 50);
+}
+function closeModal() { document.getElementById('contactModal').classList.remove('open'); document.body.style.overflow = ''; }
+function closeModalOutside(e) { if (e.target === document.getElementById('contactModal')) closeModal(); }
+function submitModal() {
+  const name = document.getElementById('modal-name').value.trim();
+  const email = document.getElementById('modal-email').value.trim();
+  if (!name || !email) { alert('Please fill in your name and email.'); return; }
+  alert('Thanks! We\'ll reach out within a few hours.\n\nOr contact us directly:\nshriman1181@gmail.com\n+91 77182 77181');
+  closeModal();
+}
+function submitContactForm() {
+  const name = document.getElementById('cf-name').value.trim();
+  const email = document.getElementById('cf-email').value.trim();
+  if (!name || !email) { alert('Please fill in your name and email.'); return; }
+  alert('Thanks! We\'ll be in touch shortly.\n\nDirect contact:\nshriman1181@gmail.com\n+91 77182 77181');
+  ['cf-name','cf-email','cf-amount','cf-msg'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('cf-type').selectedIndex = 0;
+}
+</script>
+</body>
+</html>
